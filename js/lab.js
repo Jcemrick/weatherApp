@@ -1,37 +1,32 @@
+// constants and variables
+
+const API_KEY = '0b5ff7344b660499375e72f1fa5dad25';
+
+const BASE_URL = 'http://api.openweathermap.org/geo/1.0/direct?q='
+
+function currentWeather(city) {
 
 
-// variable for weather/geo api key
-const apiKey = "0b5ff7344b660499375e72f1fa5dad25";
-
-// variable for base URL for weather
-const weatherURL = "http://api.openweathermap.org";
-
-
+$.ajax(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`)
+.then((cityName) => {
+  const lat = (cityName[0].lat);
+  const lon = (cityName[0].lon);
+  const newURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
 
-function geoLocation(cityInput) {
-
-  $("#submit").on("click", (event) => {
-    event.preventDefault();
-    const cityInput = $("input[type=text]").val();
-    
+  $.ajax(newURL)
+  .then(weather => {
+    console.log(weather)
+    })
   })
-
-  const geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&appid=${apiKey}`
-
-  $.ajax(geoURL)
-  .then((city) => {
-    console.log(city)
-
-  })
-
 }
 
-function weatherSearch(city) {
-  const urlW = `https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}`
-  console.log(urlW)
+$('button[id=submit]').on("click", (event) => {
+  event.preventDefault();
 
-}
+  const inputText = $('input[type=text').val();
 
+  currentWeather(inputText);
+})
 
-weatherSearch('bonney lake')
+currentWeather("Seattle")
